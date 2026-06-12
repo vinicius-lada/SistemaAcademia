@@ -1,6 +1,7 @@
 package controller;
 
 import model.Equipamento;
+import util.LogUtil;
 import java.util.ArrayList;
 
 public class EquipamentoController {
@@ -15,6 +16,7 @@ public class EquipamentoController {
     public void cadastrar(String nome, int quantidade, boolean disponivel) {
         Equipamento equipamento = new Equipamento(proximoId, nome, quantidade, disponivel);
         equipamentos.add(equipamento);
+        LogUtil.registrar("INFO", "Equipamento cadastrado: ID " + equipamento.getId() + " - " + equipamento.getNome());
         proximoId++;
     }
 
@@ -35,12 +37,14 @@ public class EquipamentoController {
         Equipamento equipamento = buscarPorId(id);
 
         if (equipamento == null) {
+            LogUtil.registrar("WARNING", "Tentativa de atualizar equipamento inexistente: ID " + id);
             return false;
         }
 
         equipamento.setNome(nome);
         equipamento.setQuantidade(quantidade);
         equipamento.setDisponivel(disponivel);
+        LogUtil.registrar("INFO", "Equipamento atualizado: ID " + equipamento.getId() + " - " + equipamento.getNome());
         return true;
     }
 
@@ -48,10 +52,12 @@ public class EquipamentoController {
         Equipamento equipamento = buscarPorId(id);
 
         if (equipamento == null) {
+            LogUtil.registrar("WARNING", "Tentativa de remover equipamento inexistente: ID " + id);
             return false;
         }
 
         equipamentos.remove(equipamento);
+        LogUtil.registrar("INFO", "Equipamento removido: ID " + equipamento.getId() + " - " + equipamento.getNome());
         return true;
     }
 }

@@ -1,9 +1,12 @@
 package view;
 
 import controller.AulaController;
+import exceptions.ValidacaoException;
 import model.Aula;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
+import util.LogUtil;
 
 public class AulaView {
     private final Scanner scanner;
@@ -67,7 +70,8 @@ public class AulaView {
 
             aulaController.cadastrar(nome, professor, horario, capacidade);
             System.out.println("Aula cadastrada com sucesso.");
-        } catch (IllegalArgumentException erro) {
+        } catch (ValidacaoException erro) {
+            LogUtil.registrar("ERROR", "Erro ao cadastrar aula: " + erro.getMessage());
             System.out.println("Erro: " + erro.getMessage());
         }
     }
@@ -111,7 +115,8 @@ public class AulaView {
             } else {
                 System.out.println("Aula nao encontrada.");
             }
-        } catch (IllegalArgumentException erro) {
+        } catch (ValidacaoException erro) {
+            LogUtil.registrar("ERROR", "Erro ao atualizar aula: " + erro.getMessage());
             System.out.println("Erro: " + erro.getMessage());
         }
     }
@@ -130,8 +135,16 @@ public class AulaView {
     }
 
     private int lerInteiro() {
-        int numero = scanner.nextInt();
-        scanner.nextLine();
-        return numero;
+        while (true) {
+            try {
+                int numero = scanner.nextInt();
+                scanner.nextLine();
+                return numero;
+            } catch (InputMismatchException erro) {
+                scanner.nextLine();
+                LogUtil.registrar("WARNING", "Entrada invalida em aula: numero inteiro esperado.");
+                System.out.print("Digite um numero valido: ");
+            }
+        }
     }
 }

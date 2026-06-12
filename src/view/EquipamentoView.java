@@ -1,9 +1,12 @@
 package view;
 
 import controller.EquipamentoController;
+import exceptions.ValidacaoException;
 import model.Equipamento;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
+import util.LogUtil;
 
 public class EquipamentoView {
     private final Scanner scanner;
@@ -64,7 +67,8 @@ public class EquipamentoView {
 
             equipamentoController.cadastrar(nome, quantidade, disponivel);
             System.out.println("Equipamento cadastrado com sucesso.");
-        } catch (IllegalArgumentException erro) {
+        } catch (ValidacaoException erro) {
+            LogUtil.registrar("ERROR", "Erro ao cadastrar equipamento: " + erro.getMessage());
             System.out.println("Erro: " + erro.getMessage());
         }
     }
@@ -105,7 +109,8 @@ public class EquipamentoView {
             } else {
                 System.out.println("Equipamento nao encontrado.");
             }
-        } catch (IllegalArgumentException erro) {
+        } catch (ValidacaoException erro) {
+            LogUtil.registrar("ERROR", "Erro ao atualizar equipamento: " + erro.getMessage());
             System.out.println("Erro: " + erro.getMessage());
         }
     }
@@ -124,9 +129,17 @@ public class EquipamentoView {
     }
 
     private int lerInteiro() {
-        int numero = scanner.nextInt();
-        scanner.nextLine();
-        return numero;
+        while (true) {
+            try {
+                int numero = scanner.nextInt();
+                scanner.nextLine();
+                return numero;
+            } catch (InputMismatchException erro) {
+                scanner.nextLine();
+                LogUtil.registrar("WARNING", "Entrada invalida em equipamento: numero inteiro esperado.");
+                System.out.print("Digite um numero valido: ");
+            }
+        }
     }
 
     private boolean lerDisponibilidade() {

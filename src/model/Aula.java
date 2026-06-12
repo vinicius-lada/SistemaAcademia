@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.ValidacaoException;
 import interfaces.Exibivel;
 
 public class Aula implements Exibivel {
@@ -39,28 +40,28 @@ public class Aula implements Exibivel {
 
     public void setNome(String nome) {
         if (nome == null || nome.isEmpty()) {
-            throw new IllegalArgumentException("Nome nao pode ser vazio.");
+            throw new ValidacaoException("Nome nao pode ser vazio.");
         }
         this.nome = nome;
     }
 
     public void setProfessor(String professor) {
         if (professor == null || professor.isEmpty()) {
-            throw new IllegalArgumentException("Professor nao pode ser vazio.");
+            throw new ValidacaoException("Professor nao pode ser vazio.");
         }
         this.professor = professor;
     }
 
     public void setHorario(String horario) {
         if (horario == null || horario.isEmpty()) {
-            throw new IllegalArgumentException("Horario nao pode ser vazio.");
+            throw new ValidacaoException("Horario nao pode ser vazio.");
         }
         this.horario = horario;
     }
 
     public void setCapacidade(int capacidade) {
         if (capacidade <= 0) {
-            throw new IllegalArgumentException("Capacidade deve ser maior que zero.");
+            throw new ValidacaoException("Capacidade deve ser maior que zero.");
         }
         this.capacidade = capacidade;
     }

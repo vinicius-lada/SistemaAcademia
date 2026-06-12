@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.ValidacaoException;
 import interfaces.Exibivel;
 
 public class Equipamento implements Exibivel {
@@ -33,14 +34,14 @@ public class Equipamento implements Exibivel {
 
     public void setNome(String nome) {
         if (nome == null || nome.isEmpty()) {
-            throw new IllegalArgumentException("Nome nao pode ser vazio.");
+            throw new ValidacaoException("Nome nao pode ser vazio.");
         }
         this.nome = nome;
     }
 
     public void setQuantidade(int quantidade) {
         if (quantidade < 0) {
-            throw new IllegalArgumentException("Quantidade nao pode ser negativa.");
+            throw new ValidacaoException("Quantidade nao pode ser negativa.");
         }
         this.quantidade = quantidade;
     }
