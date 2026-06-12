@@ -2,6 +2,7 @@ package controller;
 
 import exceptions.ValidacaoException;
 import model.Aula;
+import util.ArquivoService;
 import util.LoggerService;
 import java.util.ArrayList;
 
@@ -10,8 +11,18 @@ public class AulaController {
     private int proximoId;
 
     public AulaController() {
-        aulas = new ArrayList<>();
+        aulas = ArquivoService.carregarAulas();
+        atualizarProximoId();
+    }
+
+    private void atualizarProximoId() {
         proximoId = 1;
+
+        for (Aula aula : aulas) {
+            if (aula.getId() >= proximoId) {
+                proximoId = aula.getId() + 1;
+            }
+        }
     }
 
     public void cadastrar(String nome, String professor, String horario, int capacidade)
@@ -19,6 +30,7 @@ public class AulaController {
         Aula aula = new Aula(proximoId, nome, professor, horario, capacidade);
         aulas.add(aula);
         LoggerService.log("INFO", "Aula cadastrada: ID " + aula.getId() + " - " + aula.getNome());
+        ArquivoService.salvarAulas(aulas);
         proximoId++;
     }
 
@@ -49,6 +61,7 @@ public class AulaController {
         aula.setHorario(horario);
         aula.setCapacidade(capacidade);
         LoggerService.log("INFO", "Aula atualizada: ID " + aula.getId() + " - " + aula.getNome());
+        ArquivoService.salvarAulas(aulas);
         return true;
     }
 
@@ -62,6 +75,7 @@ public class AulaController {
 
         aulas.remove(aula);
         LoggerService.log("INFO", "Aula removida: ID " + aula.getId() + " - " + aula.getNome());
+        ArquivoService.salvarAulas(aulas);
         return true;
     }
 }

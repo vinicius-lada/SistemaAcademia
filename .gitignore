@@ -30,6 +30,8 @@ bin/
 
 ### Java ###
 *.class
+logs/
+dados/
 
 ### Mac OS ###
 .DS_Store

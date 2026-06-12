@@ -2,6 +2,7 @@ package controller;
 
 import exceptions.ValidacaoException;
 import model.Equipamento;
+import util.ArquivoService;
 import util.LoggerService;
 import java.util.ArrayList;
 
@@ -10,8 +11,18 @@ public class EquipamentoController {
     private int proximoId;
 
     public EquipamentoController() {
-        equipamentos = new ArrayList<>();
+        equipamentos = ArquivoService.carregarEquipamentos();
+        atualizarProximoId();
+    }
+
+    private void atualizarProximoId() {
         proximoId = 1;
+
+        for (Equipamento equipamento : equipamentos) {
+            if (equipamento.getId() >= proximoId) {
+                proximoId = equipamento.getId() + 1;
+            }
+        }
     }
 
     public void cadastrar(String nome, int quantidade, boolean disponivel)
@@ -19,6 +30,7 @@ public class EquipamentoController {
         Equipamento equipamento = new Equipamento(proximoId, nome, quantidade, disponivel);
         equipamentos.add(equipamento);
         LoggerService.log("INFO", "Equipamento cadastrado: ID " + equipamento.getId() + " - " + equipamento.getNome());
+        ArquivoService.salvarEquipamentos(equipamentos);
         proximoId++;
     }
 
@@ -48,6 +60,7 @@ public class EquipamentoController {
         equipamento.setQuantidade(quantidade);
         equipamento.setDisponivel(disponivel);
         LoggerService.log("INFO", "Equipamento atualizado: ID " + equipamento.getId() + " - " + equipamento.getNome());
+        ArquivoService.salvarEquipamentos(equipamentos);
         return true;
     }
 
@@ -61,6 +74,7 @@ public class EquipamentoController {
 
         equipamentos.remove(equipamento);
         LoggerService.log("INFO", "Equipamento removido: ID " + equipamento.getId() + " - " + equipamento.getNome());
+        ArquivoService.salvarEquipamentos(equipamentos);
         return true;
     }
 }
