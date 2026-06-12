@@ -1,6 +1,8 @@
 package model;
 
-public class Aula {
+import interfaces.Exibivel;
+
+public class Aula implements Exibivel {
     private final int id;
     private String nome;
     private String professor;
@@ -63,6 +65,7 @@ public class Aula {
         this.capacidade = capacidade;
     }
 
+    @Override
     public void exibirDados() {
         System.out.println("ID: " + id);
         System.out.println("Nome: " + nome);

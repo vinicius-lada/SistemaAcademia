@@ -1,6 +1,8 @@
 package model;
 
-public class Equipamento {
+import interfaces.Exibivel;
+
+public class Equipamento implements Exibivel {
     private final int id;
     private String nome;
     private int quantidade;
@@ -47,6 +49,7 @@ public class Equipamento {
         this.disponivel = disponivel;
     }
 
+    @Override
     public void exibirDados() {
         System.out.println("ID: " + id);
         System.out.println("Nome: " + nome);
