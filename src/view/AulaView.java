@@ -6,7 +6,7 @@ import model.Aula;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import util.LogUtil;
+import util.LoggerService;
 
 public class AulaView {
     private final Scanner scanner;
@@ -18,38 +18,44 @@ public class AulaView {
     }
 
     public void exibirMenu() {
-        int opcao;
+        int opcao = -1;
 
         do {
-            System.out.println("\n--- Menu de Aulas ---");
-            System.out.println("1 - Cadastrar aula");
-            System.out.println("2 - Listar aulas");
-            System.out.println("3 - Atualizar aula");
-            System.out.println("4 - Remover aula");
-            System.out.println("0 - Voltar");
-            System.out.print("Escolha uma opcao: ");
+            try {
+                System.out.println("\n--- Menu de Aulas ---");
+                System.out.println("1 - Cadastrar aula");
+                System.out.println("2 - Listar aulas");
+                System.out.println("3 - Atualizar aula");
+                System.out.println("4 - Remover aula");
+                System.out.println("0 - Voltar");
+                System.out.print("Escolha uma opcao: ");
 
-            opcao = lerInteiro();
+                opcao = scanner.nextInt();
+                scanner.nextLine();
 
-            switch (opcao) {
-                case 1:
-                    cadastrarAula();
-                    break;
-                case 2:
-                    listarAulas();
-                    break;
-                case 3:
-                    atualizarAula();
-                    break;
-                case 4:
-                    removerAula();
-                    break;
-                case 0:
-                    System.out.println("Voltando ao menu principal...");
-                    break;
-                default:
-                    System.out.println("Opcao invalida.");
-                    break;
+                switch (opcao) {
+                    case 1:
+                        cadastrarAula();
+                        break;
+                    case 2:
+                        listarAulas();
+                        break;
+                    case 3:
+                        atualizarAula();
+                        break;
+                    case 4:
+                        removerAula();
+                        break;
+                    case 0:
+                        System.out.println("Voltando ao menu principal...");
+                        break;
+                    default:
+                        System.out.println("Opcao invalida.");
+                        break;
+                }
+            } catch (InputMismatchException erro) {
+                System.out.println("Erro: digite um numero valido.");
+                scanner.nextLine();
             }
         } while (opcao != 0);
     }
@@ -66,12 +72,13 @@ public class AulaView {
             String horario = scanner.nextLine();
 
             System.out.print("Capacidade: ");
-            int capacidade = lerInteiro();
+            int capacidade = scanner.nextInt();
+            scanner.nextLine();
 
             aulaController.cadastrar(nome, professor, horario, capacidade);
             System.out.println("Aula cadastrada com sucesso.");
         } catch (ValidacaoException erro) {
-            LogUtil.registrar("ERROR", "Erro ao cadastrar aula: " + erro.getMessage());
+            LoggerService.log("ERROR", "Erro ao cadastrar aula: " + erro.getMessage());
             System.out.println("Erro: " + erro.getMessage());
         }
     }
@@ -94,7 +101,8 @@ public class AulaView {
     private void atualizarAula() {
         try {
             System.out.print("ID da aula: ");
-            int id = lerInteiro();
+            int id = scanner.nextInt();
+            scanner.nextLine();
 
             System.out.print("Novo nome: ");
             String nome = scanner.nextLine();
@@ -106,7 +114,8 @@ public class AulaView {
             String horario = scanner.nextLine();
 
             System.out.print("Nova capacidade: ");
-            int capacidade = lerInteiro();
+            int capacidade = scanner.nextInt();
+            scanner.nextLine();
 
             boolean atualizada = aulaController.atualizar(id, nome, professor, horario, capacidade);
 
@@ -116,14 +125,15 @@ public class AulaView {
                 System.out.println("Aula nao encontrada.");
             }
         } catch (ValidacaoException erro) {
-            LogUtil.registrar("ERROR", "Erro ao atualizar aula: " + erro.getMessage());
+            LoggerService.log("ERROR", "Erro ao atualizar aula: " + erro.getMessage());
             System.out.println("Erro: " + erro.getMessage());
         }
     }
 
     private void removerAula() {
         System.out.print("ID da aula: ");
-        int id = lerInteiro();
+        int id = scanner.nextInt();
+        scanner.nextLine();
 
         boolean removida = aulaController.remover(id);
 
@@ -131,20 +141,6 @@ public class AulaView {
             System.out.println("Aula removida com sucesso.");
         } else {
             System.out.println("Aula nao encontrada.");
-        }
-    }
-
-    private int lerInteiro() {
-        while (true) {
-            try {
-                int numero = scanner.nextInt();
-                scanner.nextLine();
-                return numero;
-            } catch (InputMismatchException erro) {
-                scanner.nextLine();
-                LogUtil.registrar("WARNING", "Entrada invalida em aula: numero inteiro esperado.");
-                System.out.print("Digite um numero valido: ");
-            }
         }
     }
 }

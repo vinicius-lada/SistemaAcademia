@@ -1,7 +1,8 @@
 package controller;
 
+import exceptions.ValidacaoException;
 import model.Aula;
-import util.LogUtil;
+import util.LoggerService;
 import java.util.ArrayList;
 
 public class AulaController {
@@ -13,10 +14,11 @@ public class AulaController {
         proximoId = 1;
     }
 
-    public void cadastrar(String nome, String professor, String horario, int capacidade) {
+    public void cadastrar(String nome, String professor, String horario, int capacidade)
+            throws ValidacaoException {
         Aula aula = new Aula(proximoId, nome, professor, horario, capacidade);
         aulas.add(aula);
-        LogUtil.registrar("INFO", "Aula cadastrada: ID " + aula.getId() + " - " + aula.getNome());
+        LoggerService.log("INFO", "Aula cadastrada: ID " + aula.getId() + " - " + aula.getNome());
         proximoId++;
     }
 
@@ -33,11 +35,12 @@ public class AulaController {
         return null;
     }
 
-    public boolean atualizar(int id, String nome, String professor, String horario, int capacidade) {
+    public boolean atualizar(int id, String nome, String professor, String horario, int capacidade)
+            throws ValidacaoException {
         Aula aula = buscarPorId(id);
 
         if (aula == null) {
-            LogUtil.registrar("WARNING", "Tentativa de atualizar aula inexistente: ID " + id);
+            LoggerService.log("WARNING", "Tentativa de atualizar aula inexistente: ID " + id);
             return false;
         }
 
@@ -45,7 +48,7 @@ public class AulaController {
         aula.setProfessor(professor);
         aula.setHorario(horario);
         aula.setCapacidade(capacidade);
-        LogUtil.registrar("INFO", "Aula atualizada: ID " + aula.getId() + " - " + aula.getNome());
+        LoggerService.log("INFO", "Aula atualizada: ID " + aula.getId() + " - " + aula.getNome());
         return true;
     }
 
@@ -53,12 +56,12 @@ public class AulaController {
         Aula aula = buscarPorId(id);
 
         if (aula == null) {
-            LogUtil.registrar("WARNING", "Tentativa de remover aula inexistente: ID " + id);
+            LoggerService.log("WARNING", "Tentativa de remover aula inexistente: ID " + id);
             return false;
         }
 
         aulas.remove(aula);
-        LogUtil.registrar("INFO", "Aula removida: ID " + aula.getId() + " - " + aula.getNome());
+        LoggerService.log("INFO", "Aula removida: ID " + aula.getId() + " - " + aula.getNome());
         return true;
     }
 }

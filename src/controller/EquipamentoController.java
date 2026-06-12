@@ -1,7 +1,8 @@
 package controller;
 
+import exceptions.ValidacaoException;
 import model.Equipamento;
-import util.LogUtil;
+import util.LoggerService;
 import java.util.ArrayList;
 
 public class EquipamentoController {
@@ -13,10 +14,11 @@ public class EquipamentoController {
         proximoId = 1;
     }
 
-    public void cadastrar(String nome, int quantidade, boolean disponivel) {
+    public void cadastrar(String nome, int quantidade, boolean disponivel)
+            throws ValidacaoException {
         Equipamento equipamento = new Equipamento(proximoId, nome, quantidade, disponivel);
         equipamentos.add(equipamento);
-        LogUtil.registrar("INFO", "Equipamento cadastrado: ID " + equipamento.getId() + " - " + equipamento.getNome());
+        LoggerService.log("INFO", "Equipamento cadastrado: ID " + equipamento.getId() + " - " + equipamento.getNome());
         proximoId++;
     }
 
@@ -33,18 +35,19 @@ public class EquipamentoController {
         return null;
     }
 
-    public boolean atualizar(int id, String nome, int quantidade, boolean disponivel) {
+    public boolean atualizar(int id, String nome, int quantidade, boolean disponivel)
+            throws ValidacaoException {
         Equipamento equipamento = buscarPorId(id);
 
         if (equipamento == null) {
-            LogUtil.registrar("WARNING", "Tentativa de atualizar equipamento inexistente: ID " + id);
+            LoggerService.log("WARNING", "Tentativa de atualizar equipamento inexistente: ID " + id);
             return false;
         }
 
         equipamento.setNome(nome);
         equipamento.setQuantidade(quantidade);
         equipamento.setDisponivel(disponivel);
-        LogUtil.registrar("INFO", "Equipamento atualizado: ID " + equipamento.getId() + " - " + equipamento.getNome());
+        LoggerService.log("INFO", "Equipamento atualizado: ID " + equipamento.getId() + " - " + equipamento.getNome());
         return true;
     }
 
@@ -52,12 +55,12 @@ public class EquipamentoController {
         Equipamento equipamento = buscarPorId(id);
 
         if (equipamento == null) {
-            LogUtil.registrar("WARNING", "Tentativa de remover equipamento inexistente: ID " + id);
+            LoggerService.log("WARNING", "Tentativa de remover equipamento inexistente: ID " + id);
             return false;
         }
 
         equipamentos.remove(equipamento);
-        LogUtil.registrar("INFO", "Equipamento removido: ID " + equipamento.getId() + " - " + equipamento.getNome());
+        LoggerService.log("INFO", "Equipamento removido: ID " + equipamento.getId() + " - " + equipamento.getNome());
         return true;
     }
 }
