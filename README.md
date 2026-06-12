@@ -38,9 +38,9 @@ O sistema utiliza dos seguintes conceitos:
 - Persistência de dados
 
 ## Como Executar O Projeto
-1 - Baixe ou clone o repositório.
-2 - Abra o projeto em uma IDE Java
-3 - Execute o método main.
+- 1 - Baixe ou clone o repositório.
+- 2 - Abra o projeto em uma IDE Java
+- 3 - Execute o método main.
 
 ## Uso De IA
 Algumas ferramentas de IA, como GPT 5.5, Gemini 3.1 e NotebookLM foram utilizadas como apoio para organização estrutural do projeto, revisão de classes, exemplos de CRUD e interfaces, organização de documentos e de sugestão. A IA foi utilizada como APOIO, a equipe foi responsável pela compreensão e construção geral do código e do projeto.
