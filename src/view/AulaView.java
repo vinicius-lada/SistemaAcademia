@@ -1,0 +1,137 @@
+package view;
+
+import controller.AulaController;
+import model.Aula;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class AulaView {
+    private final Scanner scanner;
+    private final AulaController aulaController;
+
+    public AulaView(Scanner scanner, AulaController aulaController) {
+        this.scanner = scanner;
+        this.aulaController = aulaController;
+    }
+
+    public void exibirMenu() {
+        int opcao;
+
+        do {
+            System.out.println("\n--- Menu de Aulas ---");
+            System.out.println("1 - Cadastrar aula");
+            System.out.println("2 - Listar aulas");
+            System.out.println("3 - Atualizar aula");
+            System.out.println("4 - Remover aula");
+            System.out.println("0 - Voltar");
+            System.out.print("Escolha uma opcao: ");
+
+            opcao = lerInteiro();
+
+            switch (opcao) {
+                case 1:
+                    cadastrarAula();
+                    break;
+                case 2:
+                    listarAulas();
+                    break;
+                case 3:
+                    atualizarAula();
+                    break;
+                case 4:
+                    removerAula();
+                    break;
+                case 0:
+                    System.out.println("Voltando ao menu principal...");
+                    break;
+                default:
+                    System.out.println("Opcao invalida.");
+                    break;
+            }
+        } while (opcao != 0);
+    }
+
+    private void cadastrarAula() {
+        try {
+            System.out.print("Nome: ");
+            String nome = scanner.nextLine();
+
+            System.out.print("Professor: ");
+            String professor = scanner.nextLine();
+
+            System.out.print("Horario: ");
+            String horario = scanner.nextLine();
+
+            System.out.print("Capacidade: ");
+            int capacidade = lerInteiro();
+
+            aulaController.cadastrar(nome, professor, horario, capacidade);
+            System.out.println("Aula cadastrada com sucesso.");
+        } catch (IllegalArgumentException erro) {
+            System.out.println("Erro: " + erro.getMessage());
+        }
+    }
+
+    private void listarAulas() {
+        ArrayList<Aula> aulas = aulaController.listar();
+
+        if (aulas.isEmpty()) {
+            System.out.println("Nenhuma aula cadastrada.");
+            return;
+        }
+
+        System.out.println("\n--- Aulas cadastradas ---");
+        for (Aula aula : aulas) {
+            aula.exibirDados();
+            System.out.println("--------------------");
+        }
+    }
+
+    private void atualizarAula() {
+        try {
+            System.out.print("ID da aula: ");
+            int id = lerInteiro();
+
+            System.out.print("Novo nome: ");
+            String nome = scanner.nextLine();
+
+            System.out.print("Novo professor: ");
+            String professor = scanner.nextLine();
+
+            System.out.print("Novo horario: ");
+            String horario = scanner.nextLine();
+
+            System.out.print("Nova capacidade: ");
+            int capacidade = lerInteiro();
+
+            boolean atualizada = aulaController.atualizar(id, nome, professor, horario, capacidade);
+
+            if (atualizada) {
+                System.out.println("Aula atualizada com sucesso.");
+            } else {
+                System.out.println("Aula nao encontrada.");
+            }
+        } catch (IllegalArgumentException erro) {
+            System.out.println("Erro: " + erro.getMessage());
+        }
+    }
+
+    private void removerAula() {
+        System.out.print("ID da aula: ");
+        int id = lerInteiro();
+
+        boolean removida = aulaController.remover(id);
+
+        if (removida) {
+            System.out.println("Aula removida com sucesso.");
+        } else {
+            System.out.println("Aula nao encontrada.");
+        }
+    }
+
+    private int lerInteiro() {
+        int numero = scanner.nextInt();
+        scanner.nextLine();
+        return numero;
+    }
+}
