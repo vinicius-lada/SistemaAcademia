@@ -1,20 +1,25 @@
 package main;
 
-import controller.EquipamentoController;
-import view.EquipamentoView;
+import controller.*;
+import view.*;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
         EquipamentoController equipamentoController = new EquipamentoController();
         EquipamentoView equipamentoView = new EquipamentoView(scanner, equipamentoController);
+
+        AulaController aulaController = new AulaController();
+        AulaView aulaView = new AulaView(scanner, aulaController);
 
         int opcao;
 
         do {
             System.out.println("\n--- Sistema Academia ---");
             System.out.println("1 - Equipamentos");
+            System.out.println("2 - Aulas");
             System.out.println("0 - Sair");
             System.out.print("Escolha uma opcao: ");
 
@@ -24,6 +29,9 @@ public class Main {
             switch (opcao) {
                 case 1:
                     equipamentoView.exibirMenu();
+                    break;
+                case 2:
+                    aulaView.exibirMenu();
                     break;
                 case 0:
                     System.out.println("Sistema encerrado.");
