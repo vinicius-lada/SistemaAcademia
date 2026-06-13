@@ -1,7 +1,9 @@
 package util;
 
+import model.Aluno;
 import model.Aula;
 import model.Equipamento;
+import model.Matricula;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,8 +15,45 @@ import java.util.ArrayList;
 
 public class ArquivoService {
     private static final String PASTA = "dados";
+    private static final String ARQUIVO_ALUNOS = "dados/alunos.dat";
     private static final String ARQUIVO_AULAS = "dados/aulas.dat";
     private static final String ARQUIVO_EQUIPAMENTOS = "dados/equipamentos.dat";
+    private static final String ARQUIVO_MATRICULAS = "dados/matriculas.dat";
+
+    public static void salvarAlunos(ArrayList<Aluno> alunos) {
+        try {
+            criarPasta();
+
+            ObjectOutputStream out = new ObjectOutputStream(
+                    new FileOutputStream(ARQUIVO_ALUNOS)
+            );
+
+            out.writeObject(alunos);
+            out.close();
+
+            LoggerService.log("INFO", "Alunos salvos com sucesso.");
+        } catch (Exception e) {
+            LoggerService.log("ERROR", "Erro ao salvar alunos: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static ArrayList<Aluno> carregarAlunos() {
+        try {
+            ObjectInputStream in = new ObjectInputStream(
+                    new FileInputStream(ARQUIVO_ALUNOS)
+            );
+
+            ArrayList<Aluno> alunos = (ArrayList<Aluno>) in.readObject();
+            in.close();
+
+            LoggerService.log("INFO", "Alunos carregados com sucesso.");
+            return alunos;
+        } catch (Exception e) {
+            LoggerService.log("WARNING", "Nenhum aluno carregado.");
+            return new ArrayList<>();
+        }
+    }
 
     public static void salvarAulas(ArrayList<Aula> aulas) {
         try {
@@ -82,6 +121,41 @@ public class ArquivoService {
             return equipamentos;
         } catch (Exception e) {
             LoggerService.log("WARNING", "Nenhum equipamento carregado.");
+            return new ArrayList<>();
+        }
+    }
+
+    public static void salvarMatriculas(ArrayList<Matricula> matriculas) {
+        try {
+            criarPasta();
+
+            ObjectOutputStream out = new ObjectOutputStream(
+                    new FileOutputStream(ARQUIVO_MATRICULAS)
+            );
+
+            out.writeObject(matriculas);
+            out.close();
+
+            LoggerService.log("INFO", "Matriculas salvas com sucesso.");
+        } catch (Exception e) {
+            LoggerService.log("ERROR", "Erro ao salvar matriculas: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static ArrayList<Matricula> carregarMatriculas() {
+        try {
+            ObjectInputStream in = new ObjectInputStream(
+                    new FileInputStream(ARQUIVO_MATRICULAS)
+            );
+
+            ArrayList<Matricula> matriculas = (ArrayList<Matricula>) in.readObject();
+            in.close();
+
+            LoggerService.log("INFO", "Matriculas carregadas com sucesso.");
+            return matriculas;
+        } catch (Exception e) {
+            LoggerService.log("WARNING", "Nenhuma matricula carregada.");
             return new ArrayList<>();
         }
     }

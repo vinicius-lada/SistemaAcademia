@@ -15,6 +15,12 @@ public class Main {
         AulaController aulaController = new AulaController();
         AulaView aulaView = new AulaView(scanner, aulaController);
 
+        AlunoController alunoController = new AlunoController();
+        AlunoView alunoView = new AlunoView(scanner, alunoController);
+
+        MatriculaController matriculaController = new MatriculaController();
+        MatriculaView matriculaView = new MatriculaView(scanner, matriculaController);
+
         int opcao = -1;
 
         do {
@@ -22,6 +28,8 @@ public class Main {
                 System.out.println("\n--- Sistema Academia ---");
                 System.out.println("1 - Equipamentos");
                 System.out.println("2 - Aulas");
+                System.out.println("3 - Alunos");
+                System.out.println("4 - Matriculas");
                 System.out.println("0 - Sair");
                 System.out.print("Escolha uma opcao: ");
 
@@ -34,6 +42,12 @@ public class Main {
                         break;
                     case 2:
                         aulaView.exibirMenu();
+                        break;
+                    case 3:
+                        alunoView.exibirMenu();
+                        break;
+                    case 4:
+                        matriculaView.exibirMenu();
                         break;
                     case 0:
                         System.out.println("Sistema encerrado.");

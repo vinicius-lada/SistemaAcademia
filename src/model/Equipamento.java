@@ -4,8 +4,6 @@ import exceptions.ValidacaoException;
 import interfaces.Exibivel;
 
 public class Equipamento implements Exibivel {
-    private static final long serialVersionUID = 1L;
-
     private final int id;
     private String nome;
     private int quantidade;
