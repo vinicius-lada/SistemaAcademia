@@ -18,11 +18,13 @@ public class Main {
         AlunoController alunoController = new AlunoController();
         AlunoView alunoView = new AlunoView(scanner, alunoController);
 
-        MatriculaController matriculaController = new MatriculaController();
-        MatriculaView matriculaView = new MatriculaView(scanner, matriculaController);
-
         PlanoController planoController = new PlanoController();
         PlanoView planoView = new PlanoView(scanner, planoController);
+
+        MatriculaController matriculaController = new MatriculaController();
+        MatriculaView matriculaView = new MatriculaView(
+                scanner, matriculaController, alunoController, planoController
+        );
 
         PagamentoController pagamentoController = new PagamentoController();
         PagamentoView pagamentoView = new PagamentoView(scanner, pagamentoController);

@@ -1,8 +1,12 @@
 package view;
 
+import controller.AlunoController;
 import controller.MatriculaController;
+import controller.PlanoController;
 import exceptions.ValidacaoException;
+import model.Aluno;
 import model.Matricula;
+import model.Plano;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -11,10 +15,15 @@ import util.LoggerService;
 public class MatriculaView {
     private final Scanner scanner;
     private final MatriculaController matriculaController;
+    private final AlunoController alunoController;
+    private final PlanoController planoController;
 
-    public MatriculaView(Scanner scanner, MatriculaController matriculaController) {
+    public MatriculaView(Scanner scanner, MatriculaController matriculaController,
+                         AlunoController alunoController, PlanoController planoController) {
         this.scanner = scanner;
         this.matriculaController = matriculaController;
+        this.alunoController = alunoController;
+        this.planoController = planoController;
     }
 
     public void exibirMenu() {
@@ -62,11 +71,27 @@ public class MatriculaView {
 
     private void cadastrarMatricula() {
         try {
-            System.out.print("Nome do aluno: ");
-            String nomeAluno = scanner.nextLine();
+            System.out.print("ID do aluno: ");
+            int idAluno = scanner.nextInt();
+            scanner.nextLine();
 
-            System.out.print("Plano: ");
-            String plano = scanner.nextLine();
+            Aluno aluno = alunoController.buscarPorId(idAluno);
+
+            if (aluno == null) {
+                System.out.println("Aluno nao encontrado.");
+                return;
+            }
+
+            System.out.print("ID do plano: ");
+            int idPlano = scanner.nextInt();
+            scanner.nextLine();
+
+            Plano plano = planoController.buscarPorId(idPlano);
+
+            if (plano == null) {
+                System.out.println("Plano nao encontrado.");
+                return;
+            }
 
             System.out.print("Data da matricula: ");
             String dataMatricula = scanner.nextLine();
@@ -74,7 +99,7 @@ public class MatriculaView {
             System.out.print("Ativa (s/n): ");
             boolean ativa = lerAtiva();
 
-            matriculaController.cadastrar(nomeAluno, plano, dataMatricula, ativa);
+            matriculaController.cadastrar(aluno, plano, dataMatricula, ativa);
             System.out.println("Matricula cadastrada com sucesso.");
         } catch (ValidacaoException erro) {
             LoggerService.log("ERROR", "Erro ao cadastrar matricula: " + erro.getMessage());
@@ -103,11 +128,27 @@ public class MatriculaView {
             int id = scanner.nextInt();
             scanner.nextLine();
 
-            System.out.print("Novo nome do aluno: ");
-            String nomeAluno = scanner.nextLine();
+            System.out.print("Novo ID do aluno: ");
+            int idAluno = scanner.nextInt();
+            scanner.nextLine();
 
-            System.out.print("Novo plano: ");
-            String plano = scanner.nextLine();
+            Aluno aluno = alunoController.buscarPorId(idAluno);
+
+            if (aluno == null) {
+                System.out.println("Aluno nao encontrado.");
+                return;
+            }
+
+            System.out.print("Novo ID do plano: ");
+            int idPlano = scanner.nextInt();
+            scanner.nextLine();
+
+            Plano plano = planoController.buscarPorId(idPlano);
+
+            if (plano == null) {
+                System.out.println("Plano nao encontrado.");
+                return;
+            }
 
             System.out.print("Nova data da matricula: ");
             String dataMatricula = scanner.nextLine();
@@ -115,7 +156,7 @@ public class MatriculaView {
             System.out.print("Ativa (s/n): ");
             boolean ativa = lerAtiva();
 
-            boolean atualizada = matriculaController.atualizar(id, nomeAluno, plano, dataMatricula, ativa);
+            boolean atualizada = matriculaController.atualizar(id, aluno, plano, dataMatricula, ativa);
 
             if (atualizada) {
                 System.out.println("Matricula atualizada com sucesso.");

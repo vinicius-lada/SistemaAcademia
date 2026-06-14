@@ -1,7 +1,9 @@
 package controller;
 
 import exceptions.ValidacaoException;
+import model.Aluno;
 import model.Matricula;
+import model.Plano;
 import util.ArquivoService;
 import util.LoggerService;
 import java.util.ArrayList;
@@ -25,9 +27,9 @@ public class MatriculaController {
         }
     }
 
-    public void cadastrar(String nomeAluno, String plano, String dataMatricula, boolean ativa)
+    public void cadastrar(Aluno aluno, Plano plano, String dataMatricula, boolean ativa)
             throws ValidacaoException {
-        Matricula matricula = new Matricula(proximoId, nomeAluno, plano, dataMatricula, ativa);
+        Matricula matricula = new Matricula(proximoId, aluno, plano, dataMatricula, ativa);
         matriculas.add(matricula);
         LoggerService.log("INFO", "Matricula cadastrada: ID " + matricula.getId() + " - " + matricula.getNomeAluno());
         ArquivoService.salvarMatriculas(matriculas);
@@ -47,7 +49,7 @@ public class MatriculaController {
         return null;
     }
 
-    public boolean atualizar(int id, String nomeAluno, String plano, String dataMatricula, boolean ativa)
+    public boolean atualizar(int id, Aluno aluno, Plano plano, String dataMatricula, boolean ativa)
             throws ValidacaoException {
         Matricula matricula = buscarPorId(id);
 
@@ -56,7 +58,7 @@ public class MatriculaController {
             return false;
         }
 
-        matricula.setNomeAluno(nomeAluno);
+        matricula.setAluno(aluno);
         matricula.setPlano(plano);
         matricula.setDataMatricula(dataMatricula);
         matricula.setAtiva(ativa);

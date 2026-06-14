@@ -5,15 +5,15 @@ import interfaces.Exibivel;
 
 public class Matricula implements Exibivel {
     private final int id;
-    private String nomeAluno;
-    private String plano;
+    private Aluno aluno;
+    private Plano plano;
     private String dataMatricula;
     private boolean ativa;
 
-    public Matricula(int id, String nomeAluno, String plano, String dataMatricula, boolean ativa)
+    public Matricula(int id, Aluno aluno, Plano plano, String dataMatricula, boolean ativa)
             throws ValidacaoException {
         this.id = id;
-        setNomeAluno(nomeAluno);
+        setAluno(aluno);
         setPlano(plano);
         setDataMatricula(dataMatricula);
         this.ativa = ativa;
@@ -23,12 +23,20 @@ public class Matricula implements Exibivel {
         return id;
     }
 
-    public String getNomeAluno() {
-        return nomeAluno;
+    public Aluno getAluno() {
+        return aluno;
     }
 
-    public String getPlano() {
+    public Plano getPlano() {
         return plano;
+    }
+
+    public String getNomeAluno() {
+        return aluno.getNome();
+    }
+
+    public String getNomePlano() {
+        return plano.getNome();
     }
 
     public String getDataMatricula() {
@@ -39,15 +47,15 @@ public class Matricula implements Exibivel {
         return ativa;
     }
 
-    public void setNomeAluno(String nomeAluno) throws ValidacaoException {
-        if (nomeAluno == null || nomeAluno.isEmpty()) {
-            throw new ValidacaoException("Nome do aluno nao pode ser vazio.");
+    public void setAluno(Aluno aluno) throws ValidacaoException {
+        if (aluno == null) {
+            throw new ValidacaoException("Aluno nao pode ser vazio.");
         }
-        this.nomeAluno = nomeAluno;
+        this.aluno = aluno;
     }
 
-    public void setPlano(String plano) throws ValidacaoException {
-        if (plano == null || plano.isEmpty()) {
+    public void setPlano(Plano plano) throws ValidacaoException {
+        if (plano == null) {
             throw new ValidacaoException("Plano nao pode ser vazio.");
         }
         this.plano = plano;
@@ -67,8 +75,8 @@ public class Matricula implements Exibivel {
     @Override
     public void exibirDados() {
         System.out.println("ID: " + id);
-        System.out.println("Nome do aluno: " + nomeAluno);
-        System.out.println("Plano: " + plano);
+        System.out.println("Aluno: " + aluno.getNome());
+        System.out.println("Plano: " + plano.getNome());
         System.out.println("Data da matricula: " + dataMatricula);
         System.out.println("Ativa: " + (ativa ? "Sim" : "Nao"));
     }
