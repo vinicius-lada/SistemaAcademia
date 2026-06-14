@@ -27,6 +27,12 @@ public class Main {
         PagamentoController pagamentoController = new PagamentoController();
         PagamentoView pagamentoView = new PagamentoView(scanner, pagamentoController);
 
+        ProfessorController professorController = new ProfessorController();
+        ProfessorView professorView = new ProfessorView(scanner, professorController);
+
+        TreinoController treinoController = new TreinoController();
+        TreinoView treinoView = new TreinoView(scanner, treinoController);
+
         int opcao = -1;
 
         do {
@@ -38,6 +44,8 @@ public class Main {
                 System.out.println("4 - Matriculas");
                 System.out.println("5 - Planos");
                 System.out.println("6 - Pagamentos");
+                System.out.println("7 - Professores");
+                System.out.println("8 - Treinos");
                 System.out.println("0 - Sair");
                 System.out.print("Escolha uma opcao: ");
 
@@ -62,6 +70,12 @@ public class Main {
                         break;
                     case 6:
                         pagamentoView.exibirMenu();
+                        break;
+                    case 7:
+                        professorView.exibirMenu();
+                        break;
+                    case 8:
+                        treinoView.exibirMenu();
                         break;
                     case 0:
                         System.out.println("Sistema encerrado.");
