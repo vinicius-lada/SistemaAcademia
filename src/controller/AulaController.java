@@ -28,6 +28,10 @@ public class AulaController {
     public void cadastrar(String nome, String professor, String horario, int capacidade)
             throws ValidacaoException {
         Aula aula = new Aula(proximoId, nome, professor, horario, capacidade);
+        cadastrar(aula);
+    }
+
+    private void cadastrar(Aula aula) {
         aulas.add(aula);
         LoggerService.log("INFO", "Aula cadastrada: ID " + aula.getId() + " - " + aula.getNome());
         ArquivoService.salvarAulas(aulas);

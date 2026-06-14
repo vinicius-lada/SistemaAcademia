@@ -28,6 +28,10 @@ public class EquipamentoController {
     public void cadastrar(String nome, int quantidade, boolean disponivel)
             throws ValidacaoException {
         Equipamento equipamento = new Equipamento(proximoId, nome, quantidade, disponivel);
+        cadastrar(equipamento);
+    }
+
+    private void cadastrar(Equipamento equipamento) {
         equipamentos.add(equipamento);
         LoggerService.log("INFO", "Equipamento cadastrado: ID " + equipamento.getId() + " - " + equipamento.getNome());
         ArquivoService.salvarEquipamentos(equipamentos);
