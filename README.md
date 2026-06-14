@@ -20,6 +20,13 @@ equipamentos e treinos para cada um.
 - Persistência em arquivos
 - Registros de logs
 
+## CRUD 
+- O Sistema possui um CRUD completo para todas as classes, com: 
+- cadastrar
+- listar
+- atualizar
+- remover
+
 ## MVC
 O sistema segue uma estrutura de MVC, com main, model, view e controller.
 
@@ -36,6 +43,16 @@ O sistema utiliza dos seguintes conceitos:
 - Polimorfismo
 - Associação
 - Persistência de dados
+
+## Classes e suas relações
+Cada classe possui um CRUD completo, com uma interface principal no Main, para possibilitar o cadastro de todos os recursos de todas as classes.
+- Pessoa
+  é uma classe abstrata que é herdada por Aluno e Professor.
+- Matrícula
+  é uma classe que possui associação com Aluno e Plano.
+
+## Logs
+O sistema possui registro de Logs na classe LoggerService, que são salvos no data/log.txt
 
 ## Como Executar O Projeto
 - 1 - Baixe ou clone o repositório.
