@@ -25,9 +25,9 @@ public class ProfessorController {
         }
     }
 
-    public void cadastrar(String nome, String especialidade, String telefone)
+    public void cadastrar(String nome, String cpf, String especialidade, String telefone)
             throws ValidacaoException {
-        Professor professor = new Professor(proximoId, nome, especialidade, telefone);
+        Professor professor = new Professor(proximoId, nome, cpf, especialidade, telefone);
         professores.add(professor);
         LoggerService.log("INFO", "Professor cadastrado: ID " + professor.getId() + " - " + professor.getNome());
         ArquivoService.salvarProfessores(professores);
@@ -47,7 +47,7 @@ public class ProfessorController {
         return null;
     }
 
-    public boolean atualizar(int id, String nome, String especialidade, String telefone)
+    public boolean atualizar(int id, String nome, String cpf, String especialidade, String telefone)
             throws ValidacaoException {
         Professor professor = buscarPorId(id);
 
@@ -57,6 +57,7 @@ public class ProfessorController {
         }
 
         professor.setNome(nome);
+        professor.setCpf(cpf);
         professor.setEspecialidade(especialidade);
         professor.setTelefone(telefone);
         LoggerService.log("INFO", "Professor atualizado: ID " + professor.getId() + " - " + professor.getNome());

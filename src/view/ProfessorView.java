@@ -65,13 +65,16 @@ public class ProfessorView {
             System.out.print("Nome: ");
             String nome = scanner.nextLine();
 
+            System.out.print("CPF: ");
+            String cpf = scanner.nextLine();
+
             System.out.print("Especialidade: ");
             String especialidade = scanner.nextLine();
 
             System.out.print("Telefone: ");
             String telefone = scanner.nextLine();
 
-            professorController.cadastrar(nome, especialidade, telefone);
+            professorController.cadastrar(nome, cpf, especialidade, telefone);
             System.out.println("Professor cadastrado com sucesso.");
         } catch (ValidacaoException erro) {
             LoggerService.log("ERROR", "Erro ao cadastrar professor: " + erro.getMessage());
@@ -103,13 +106,16 @@ public class ProfessorView {
             System.out.print("Novo nome: ");
             String nome = scanner.nextLine();
 
+            System.out.print("Novo CPF: ");
+            String cpf = scanner.nextLine();
+
             System.out.print("Nova especialidade: ");
             String especialidade = scanner.nextLine();
 
             System.out.print("Novo telefone: ");
             String telefone = scanner.nextLine();
 
-            boolean atualizado = professorController.atualizar(id, nome, especialidade, telefone);
+            boolean atualizado = professorController.atualizar(id, nome, cpf, especialidade, telefone);
 
             if (atualizado) {
                 System.out.println("Professor atualizado com sucesso.");
